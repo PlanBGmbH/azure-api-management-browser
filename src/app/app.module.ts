@@ -18,6 +18,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { MatNativeDateModule, MatIconModule, MatToolbarModule, MatTableModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 const modules: any[] = [
@@ -25,6 +27,7 @@ const modules: any[] = [
   LayoutModule,
 
   MatAutocompleteModule,
+  HttpClientModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatFormFieldModule,

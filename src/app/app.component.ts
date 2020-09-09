@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-
+import { HttpClient } from '@angular/common/http';
+import { HttpService } from './http.service';
 
 @Component({
   selector: 'app-root',
@@ -58,30 +59,33 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'azure-api-management-browser';
-
+  elements: any;
   jsonStringArray: any;
   displayedColumns: string[];
   displayData: string[];
   dataSource = this.displayData;
 
-  constructor() {
-    console.log(this.jsonStringArray);
+  constructor(private service: HttpService) {  }
 
-    this.jsonStringArray = Object.keys(elements).map(e => elements[e]);
+  ngOnInit() {
+    this.elements = this.service.getCharacters();
+    console.log(this.elements);
+    this.jsonStringArray = Object.keys(this.elements).map(e => this.elements[e]);
     this.displayedColumns = ['position', 'name', 'weight', 'symbol'];
+    console.log(this.jsonStringArray);
+    // for (let index = 0; index < this.jsonStringArray.length; index++) {
+    //   const val = Object.keys(this.jsonStringArray).map(index => this.jsonStringArray[index]);
+    //   console.log(val);
 
-    for (let index = 0; index < this.jsonStringArray.length; index++) {
-      let val = Object.keys(this.jsonStringArray).map(index => this.jsonStringArray[index]);
-      console.log(val);
+    //   for (let index = 0; index < this.jsonStringArray.length; index++) {
+    //     const tmp = Object.keys(val).map(index => val[index]);
+    //     console.log(tmp);
 
-      for (let index = 0; index < this.jsonStringArray.length; index++) {
-        let tmp = Object.keys(val).map(index => val[index]);
-        console.log(tmp);
-
-      }
-    }
+    //   }
+    // }
   }
-
-
 }
+
+
+
+
