@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { apis } from './apis';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
 
@@ -59,30 +59,21 @@ import { HttpService } from './http.service';
 })
 
 export class AppComponent {
-  elements: any;
-  jsonStringArray: any;
+  elements: apis;
   displayedColumns: string[];
   displayData: string[];
   dataSource = this.displayData;
 
   constructor(private service: HttpService) { }
 
+  // tslint:disable-next-line: use-life-cycle-interface
   async ngOnInit() {
-    this.elements = await this.service.getCharacters();
+    await this.service.getCharacters().subscribe(data => {
+      this.elements = data;
+    });
     console.log(this.elements);
-    // this.jsonStringArray = Object.keys(this.elements).map(e => this.elements[e]);
-    // this.displayedColumns = ['position', 'name', 'weight', 'symbol'];
-    console.log(this.jsonStringArray);
-    // for (let index = 0; index < this.jsonStringArray.length; index++) {
-    //   const val = Object.keys(this.jsonStringArray).map(index => this.jsonStringArray[index]);
-    //   console.log(val);
+   // this.displayedColumns = ['id', 'displayName', 'description', 'path'];
 
-    //   for (let index = 0; index < this.jsonStringArray.length; index++) {
-    //     const tmp = Object.keys(val).map(index => val[index]);
-    //     console.log(tmp);
-
-    //   }
-    // }
   }
 }
 

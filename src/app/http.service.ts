@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { apis } from './apis';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +14,12 @@ export class HttpService {
 
   url = 'https://preview-demo-mm.azure-api.net/private/api/management/apis?';
 
-  async getCharacters() {
-    await  this
+  getCharacters(): Observable<apis> {
+    return this
       .http
-      .get(this.url).subscribe(data => {
-        return data;
-      });
+      .get<apis>(this.url).pipe(
+        map(result => result)
+      );
   }
 }
 
