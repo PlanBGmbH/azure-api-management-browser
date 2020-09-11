@@ -65,13 +65,13 @@ export class AppComponent {
   displayData: string[];
   dataSource = this.displayData;
 
-  constructor(private service: HttpService) {  }
+  constructor(private service: HttpService) { }
 
-  ngOnInit() {
-    this.elements = this.service.getCharacters();
+  async ngOnInit() {
+    this.elements = await this.service.getCharacters();
     console.log(this.elements);
-    this.jsonStringArray = Object.keys(this.elements).map(e => this.elements[e]);
-    this.displayedColumns = ['position', 'name', 'weight', 'symbol'];
+    // this.jsonStringArray = Object.keys(this.elements).map(e => this.elements[e]);
+    // this.displayedColumns = ['position', 'name', 'weight', 'symbol'];
     console.log(this.jsonStringArray);
     // for (let index = 0; index < this.jsonStringArray.length; index++) {
     //   const val = Object.keys(this.jsonStringArray).map(index => this.jsonStringArray[index]);

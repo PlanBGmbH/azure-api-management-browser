@@ -18,7 +18,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { MatNativeDateModule, MatIconModule, MatToolbarModule, MatTableModule } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {TokenInterceptor} from './TokenInterceptor';
 
 
 
@@ -46,7 +47,7 @@ const modules: any[] = [
 ];
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +58,12 @@ const modules: any[] = [
   exports: [
     modules
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
