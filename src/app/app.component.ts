@@ -2,80 +2,119 @@ import { Component } from '@angular/core';
 import { apis } from './apis';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
+import { KeyValuePipe } from '@angular/common';
+import { display_data } from './display_data';
+
+
+let ELEMENT_DATA: display_data[] = [];
 
 @Component({
   selector: 'app-root',
   template: `
   <p>
-  <mat-toolbar color="primary">
+  <mat-toolbar class="ColorClass">
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
     </button>
     <span>PlanB API Management Portal</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
   </mat-toolbar>
  </p>
 
- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+ <table  class="styled-table">
+ <thead>
+   <tr>
+     <th scope="col">ID </th>
+     <th scope="col">Display Name</th>
+     <th scope="col">Path</th>
+     <th scope="col">Service Url</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr mdbTableCol *ngFor="let el of displayData">
+     <th scope="row">{{el.name}}</th>
+     <td>{{el.properties.displayName}}</td>
+     <td>{{el.properties.path}}</td>
+     <td>{{el.properties.serviceUrl}}</td>
+   </tr>
+ </tbody>
+</table>
 
- <!--- Note that these columns can be defined in any order.
-       The actual rendered columns are set as a property on the row definition" -->
 
- <!-- Position Column -->
- <ng-container matColumnDef="position">
-   <th mat-header-cell *matHeaderCellDef> No. </th>
-   <td mat-cell *matCellDef="let element"> {{element.position}} </td>
- </ng-container>
 
- <!-- Name Column -->
- <ng-container matColumnDef="name">
-   <th mat-header-cell *matHeaderCellDef> Name </th>
-   <td mat-cell *matCellDef="let element"> {{element.name}} </td>
- </ng-container>
 
- <!-- Weight Column -->
- <ng-container matColumnDef="weight">
-   <th mat-header-cell *matHeaderCellDef> Weight </th>
-   <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
- </ng-container>
 
- <!-- Symbol Column -->
- <ng-container matColumnDef="symbol">
-   <th mat-header-cell *matHeaderCellDef> Symbol </th>
-   <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
- </ng-container>
 
- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef> Weight </th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.path}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef> Symbol </th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.serviceUrl}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
   ` ,
   styleUrls: ['./app.component.scss']
 })
 
+
 export class AppComponent {
   elements: apis;
   displayedColumns: string[];
-  displayData: string[];
-  dataSource = this.displayData;
-
+  displayData: apis[];
   constructor(private service: HttpService) { }
 
   // tslint:disable-next-line: use-life-cycle-interface
-  async ngOnInit() {
-    await this.service.getCharacters().subscribe(data => {
-      this.elements = data;
+  ngOnInit() {
+    this.service.getCharacters().subscribe(data => {
+      this.writeValueToArray(data);
     });
-    console.log(this.elements);
-   // this.displayedColumns = ['id', 'displayName', 'description', 'path'];
+
+
+    // this.displayedColumns = ['id', 'displayName', 'description', 'path'];
 
   }
+  writeValueToArray(data: apis) {
+    const mapped = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+    this.displayData = mapped[0].value;
+
+    // for (let index = 0; index < this.displayData.length; index++) {
+    //   const element = this.displayData[index];
+    // }
+    for (const iterator of this.displayData) {
+      const element = iterator;
+      console.log(element);
+      const obj = new display_data(iterator.name, iterator.id, iterator.properties.path,
+        iterator.properties.serviceUrl);
+      ELEMENT_DATA.push(obj);
+    }
+
+    console.log(ELEMENT_DATA);
+  }
+
+
 }
+
 
 
 

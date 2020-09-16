@@ -1,6 +1,7 @@
-import { apisProperties } from './apiesProperties';
+import { apisProperties } from './apisProperties';
 // tslint:disable-next-line: class-name
 export class apis {
+  name: string;
   id: string;
-  porperties: apisProperties;
+  properties: apisProperties;
 }

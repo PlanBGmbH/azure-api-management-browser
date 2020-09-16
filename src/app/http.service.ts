@@ -17,9 +17,7 @@ export class HttpService {
   getCharacters(): Observable<apis> {
     return this
       .http
-      .get<apis>(this.url).pipe(
-        map(result => result)
-      );
+      .get<apis>(this.url);
   }
 }
 
