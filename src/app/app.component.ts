@@ -4,9 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
 import { KeyValuePipe } from '@angular/common';
 import { display_data } from './display_data';
+import { MatTableDataSource } from '@angular/material';
+import { DataSource } from '@angular/cdk/collections';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Observable, of } from 'rxjs';
 
 
-let ELEMENT_DATA: display_data[] = [];
+
+const ELEMENT_DATA: display_data[] = [];
 
 @Component({
   selector: 'app-root',
@@ -40,62 +45,106 @@ let ELEMENT_DATA: display_data[] = [];
  </tbody>
 </table>
 
+<mat-table #table [dataSource]="dataSource">
 
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
 
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}}
+      </mat-cell>
+    </ng-container>
 
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> id </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="cellClicked(element)"> {{element.id}} </mat-cell>
+    </ng-container>
 
+    <!-- Path Column -->
+    <ng-container matColumnDef="path">
+      <mat-header-cell *matHeaderCellDef> path </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.path}} 333</mat-cell>
+    </ng-container>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef> No. </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-  </ng-container>
+    <!-- Service Url Column -->
+    <ng-container matColumnDef="serviceUrl">
+      <mat-header-cell *matHeaderCellDef> serviceUrl </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.serviceUrl}} </mat-cell>
+    </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
+    <!-- The exapnded row contents-->
+    <!-- Expanded Content Column - The detail row is made up of this one column -->
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let detail">
+        Maaz
+      </mat-cell>
+    </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef> Weight </th>
-    <td mat-cell *matCellDef="let element"> {{element.properties.path}} </td>
-  </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <!-- <mat-row (click)="test()" *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+    <mat-row *matRowDef="let row; columns: displayedColumns;"
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <th mat-header-cell *matHeaderCellDef> Symbol </th>
-    <td mat-cell *matCellDef="let element"> {{element.properties.serviceUrl}} </td>
-  </ng-container>
+            class="element-row"
+            [class.expanded]="expandedElement == row"
+            (click)="expandedElement = row"></mat-row>
+    <mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
+            [@detailExpand]="row.element == expandedElement ? 'expanded' : 'collapsed'"
+            style="overflow: hidden">
+    </mat-row>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+  </mat-table>
   ` ,
-  styleUrls: ['./app.component.scss']
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', visibility: 'visible' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 
 
 export class AppComponent {
+  observ: any;
+  displayedColumns = ['name', 'id', 'path', 'serviceUrl'];
+
+  dataSource = new ExampleDataSource();
+
+
   elements: apis;
-  displayedColumns: string[];
   displayData: apis[];
+
+  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  expandedElement: any;
+
+
+  cellClicked(element) {
+    console.log(element.name + ' cell clicked');
+  }
+
+  formatData() {
+
+
+  }
+
   constructor(private service: HttpService) { }
 
   // tslint:disable-next-line: use-life-cycle-interface
   ngOnInit() {
     this.service.getCharacters().subscribe(data => {
-      this.writeValueToArray(data);
+      this.elements = data;
+      this.writeValueToArray();
     });
 
 
     // this.displayedColumns = ['id', 'displayName', 'description', 'path'];
 
   }
-  writeValueToArray(data: apis) {
-    const mapped = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+  writeValueToArray() {
+    const mapped = Object.keys(this.elements).map(key => ({ type: key, value: this.elements[key] }));
     this.displayData = mapped[0].value;
 
     // for (let index = 0; index < this.displayData.length; index++) {
@@ -104,15 +153,24 @@ export class AppComponent {
     for (const iterator of this.displayData) {
       const element = iterator;
       console.log(element);
-      const obj = new display_data(iterator.name, iterator.id, iterator.properties.path,
-        iterator.properties.serviceUrl);
+      const obj = new display_data(iterator.name, iterator.id, iterator.properties.path, iterator.properties.serviceUrl);
       ELEMENT_DATA.push(obj);
     }
-
+    this.observ = new ExampleDataSource();
     console.log(ELEMENT_DATA);
   }
 
 
+}
+export class ExampleDataSource extends DataSource<any> {
+  connect(): Observable<Element[]> {
+    const rows = [];
+    ELEMENT_DATA.forEach(element => rows.push(element, { detailRow: true, element }));
+    console.log(rows);
+    return of(rows);
+  }
+
+  disconnect() { }
 }
 
 
