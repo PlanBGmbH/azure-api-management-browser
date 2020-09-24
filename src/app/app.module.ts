@@ -17,9 +17,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { MatNativeDateModule, MatIconModule, MatToolbarModule, MatTableModule } from '@angular/material';
+import { MatNativeDateModule, MatIconModule, MatToolbarModule, MatTableModule, MatCardModule } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {TokenInterceptor} from './TokenInterceptor';
+import { TokenInterceptor } from './TokenInterceptor';
 
 
 
@@ -40,6 +40,7 @@ const modules: any[] = [
   MatTableModule,
   MatIconModule,
   MatToolbarModule,
+  MatCardModule,
 
   MatNativeDateModule,
 

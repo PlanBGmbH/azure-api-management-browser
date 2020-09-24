@@ -1,7 +1,11 @@
+import { responses } from './responses';
+import { templateParameter } from './templateParameter';
 // tslint:disable-next-line: class-name
 export class apisProperties {
-  displayName: string;
   description: string;
-  path: string;
-  serviceUrl: string;
+  displayName: string;
+  method: string;
+  responses: responses;
+  templateParameter: templateParameter;
+
 }

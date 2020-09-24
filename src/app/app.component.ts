@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { service } from './service';
 import { apis } from './apis';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
@@ -8,6 +9,7 @@ import { MatTableDataSource } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Observable, of } from 'rxjs';
+import { apisProperties } from './apisProperties';
 
 
 
@@ -36,66 +38,35 @@ const ELEMENT_DATA: display_data[] = [];
    </tr>
  </thead>
  <tbody>
-   <tr mdbTableCol *ngFor="let el of displayData">
-     <th scope="row">{{el.name}}</th>
-     <td>{{el.properties.displayName}}</td>
-     <td>{{el.properties.path}}</td>
-     <td>{{el.properties.serviceUrl}}</td>
+   <tr mdbTableCol *ngFor="let el of serviceDisplayData">
+     <th scope="row" (click)="getApiList(el.name)">{{el.name}}</th>
+     <td onClick="getApiList(el.name)">{{el.properties.displayName}}</td>
+     <td onClick="getApiList(el.name)">{{el.properties.path}}</td>
+     <td onClick="getApiList(el.name)">{{el.properties.serviceUrl}}</td>
    </tr>
  </tbody>
 </table>
 
-<mat-table #table [dataSource]="dataSource">
+<mat-card>
+<table  class="styled-table">
+<thead>
+  <tr>
+    <th scope="col">ID </th>
+    <th scope="col">Display Name</th>
+    <th scope="col">Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr mdbTableCol *ngFor="let el of apisDisplayData">
+    <th scope="row" (click)="getApiList(el.name)">{{el.name}}</th>
+    <td onClick="getApiList(el.name)">{{el.properties.displayName}}</td>
+    <td onClick="getApiList(el.name)">{{el.properties.description}}</td>
+  </tr>
+</tbody>
+</table>
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
+</mat-card>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}}
-      </mat-cell>
-    </ng-container>
-
-    <!-- Id Column -->
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef> id </mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="cellClicked(element)"> {{element.id}} </mat-cell>
-    </ng-container>
-
-    <!-- Path Column -->
-    <ng-container matColumnDef="path">
-      <mat-header-cell *matHeaderCellDef> path </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.path}} 333</mat-cell>
-    </ng-container>
-
-    <!-- Service Url Column -->
-    <ng-container matColumnDef="serviceUrl">
-      <mat-header-cell *matHeaderCellDef> serviceUrl </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.serviceUrl}} </mat-cell>
-    </ng-container>
-
-    <!-- The exapnded row contents-->
-    <!-- Expanded Content Column - The detail row is made up of this one column -->
-    <ng-container matColumnDef="expandedDetail">
-      <mat-cell *matCellDef="let detail">
-        Maaz
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <!-- <mat-row (click)="test()" *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
-    <mat-row *matRowDef="let row; columns: displayedColumns;"
-
-            class="element-row"
-            [class.expanded]="expandedElement == row"
-            (click)="expandedElement = row"></mat-row>
-    <mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
-            [@detailExpand]="row.element == expandedElement ? 'expanded' : 'collapsed'"
-            style="overflow: hidden">
-    </mat-row>
-
-  </mat-table>
   ` ,
   animations: [
     trigger('detailExpand', [
@@ -111,19 +82,10 @@ export class AppComponent {
   observ: any;
   displayedColumns = ['name', 'id', 'path', 'serviceUrl'];
 
-  dataSource = new ExampleDataSource();
-
-
-  elements: apis;
-  displayData: apis[];
-
-  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
-  expandedElement: any;
-
-
-  cellClicked(element) {
-    console.log(element.name + ' cell clicked');
-  }
+  serviceData: service;
+  apiData: apis;
+  serviceDisplayData: service[];
+  apisDisplayData: apis[];
 
   formatData() {
 
@@ -134,8 +96,8 @@ export class AppComponent {
 
   // tslint:disable-next-line: use-life-cycle-interface
   ngOnInit() {
-    this.service.getCharacters().subscribe(data => {
-      this.elements = data;
+    this.service.getListByService().subscribe(data => {
+      this.serviceData = data;
       this.writeValueToArray();
     });
 
@@ -144,33 +106,29 @@ export class AppComponent {
 
   }
   writeValueToArray() {
-    const mapped = Object.keys(this.elements).map(key => ({ type: key, value: this.elements[key] }));
-    this.displayData = mapped[0].value;
+    const mapped = Object.keys(this.serviceData).map(key => ({ type: key, value: this.serviceData[key] }));
+    this.serviceDisplayData = mapped[0].value;
 
-    // for (let index = 0; index < this.displayData.length; index++) {
-    //   const element = this.displayData[index];
+    // for (let index = 0; index < this.serviceDisplayData.length; index++) {
+    //   const element = this.serviceDisplayData[index];
     // }
-    for (const iterator of this.displayData) {
+    for (const iterator of this.serviceDisplayData) {
       const element = iterator;
-      console.log(element);
       const obj = new display_data(iterator.name, iterator.id, iterator.properties.path, iterator.properties.serviceUrl);
       ELEMENT_DATA.push(obj);
     }
-    this.observ = new ExampleDataSource();
-    console.log(ELEMENT_DATA);
   }
-
-
-}
-export class ExampleDataSource extends DataSource<any> {
-  connect(): Observable<Element[]> {
-    const rows = [];
-    ELEMENT_DATA.forEach(element => rows.push(element, { detailRow: true, element }));
-    console.log(rows);
-    return of(rows);
+  getApiList(param: string) {
+    this.service.getListByApi(param).subscribe(data => {
+      console.log(data);
+      this.apiData = data;
+      this.writeValueToArray();
+    });
+    console.log(this.apiData);
+    const mapped = Object.keys(this.apiData).map(key => ({ type: key, value: this.apiData[key] }));
+    this.apisDisplayData = mapped[0].value;
+    console.log(this.apisDisplayData);
   }
-
-  disconnect() { }
 }
 
 
