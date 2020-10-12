@@ -25,3 +25,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Useful links:
+
+[API Management - REST Operation Groups](https://docs.microsoft.com/en-us/rest/api/apimanagement/)
+
+[API Management - REST - Apis](https://docs.microsoft.com/en-us/rest/api/apimanagement/2019-12-01/apis)
+
+[API Management - REST - Api Operation](https://docs.microsoft.com/en-us/rest/api/apimanagement/2019-12-01/apioperation)
+
+
