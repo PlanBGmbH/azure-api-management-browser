@@ -61,7 +61,10 @@ mat-toolbar{
 
 
 
-
+tbody tr:nth-child(odd){
+  background-color: #4C8BF5;
+  color: #fff;
+}
 
 
 

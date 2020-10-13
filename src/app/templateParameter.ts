@@ -1,4 +1,4 @@
-export class templateParameter {
+export class TemplateParameter {
   description: string;
   name: string;
   required: boolean;

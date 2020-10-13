@@ -1,4 +1,4 @@
-export class responses {
+export class Responses {
   description: string;
-  
+  statusCode: number;
 }
