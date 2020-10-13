@@ -13,61 +13,75 @@ import { apisProperties } from './apisProperties';
 
 
 
+
 const ELEMENT_DATA: display_data[] = [];
 
 @Component({
   selector: 'app-root',
   template: `
   <p>
-  <mat-toolbar class="ColorClass">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>PlanB API Management Portal</span>
-    <span class="example-spacer"></span>
-  </mat-toolbar>
- </p>
+  <div class="limiter">
+  <div class="container-table100">
+    <div class="wrap-table100">
+      <div class="table100 ver1 m-b-110">
+        <table data-vertable="ver1">
+          <thead>
+            <tr class="row100 head">
+              <th class="column100 column1" data-column="column1">ID</th>
+              <th class="column100 column2" data-column="column2">Display Name</th>
+              <th class="column100 column3" data-column="column3">Path</th>
+              <th class="column100 column4" data-column="column4">Service Url</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row100" *ngFor="let el of serviceDisplayData">
+              <td class="column100 column1" data-column="column1" (click)="getApiList(el.name)">{{el.name}}</td>
+              <td class="column100 column2" data-column="column2" value="el.name" (click)="getApiList(value)">{{el.properties.displayName}}</td>
+              <td class="column100 column3" data-column="column3" value="el.name" (click)="getApiList(value)">{{el.properties.path}}</td>
+              <td class="column100 column4" data-column="column4" value="el.name" (click)="getApiList(value)">{{el.properties.serviceUrl}}</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
 
- <table  class="styled-table">
- <thead>
-   <tr>
-     <th scope="col">ID </th>
-     <th scope="col">Display Name</th>
-     <th scope="col">Path</th>
-     <th scope="col">Service Url</th>
-   </tr>
- </thead>
- <tbody>
-   <tr mdbTableCol *ngFor="let el of serviceDisplayData">
-     <th scope="row" (click)="getApiList(el.name)">{{el.name}}</th>
-     <td onClick="getApiList(el.name)">{{el.properties.displayName}}</td>
-     <td onClick="getApiList(el.name)">{{el.properties.path}}</td>
-     <td onClick="getApiList(el.name)">{{el.properties.serviceUrl}}</td>
-   </tr>
- </tbody>
-</table>
 
+  
 <mat-card>
-<table  class="styled-table">
-<thead>
-  <tr>
-    <th scope="col">ID </th>
-    <th scope="col">Display Name</th>
-    <th scope="col">Description</th>
-  </tr>
-</thead>
-<tbody>
-  <tr mdbTableCol *ngFor="let el of apisDisplayData">
-    <th scope="row" (click)="getApiList(el.name)">{{el.name}}</th>
-    <td onClick="getApiList(el.name)">{{el.properties.displayName}}</td>
-    <td onClick="getApiList(el.name)">{{el.properties.description}}</td>
-  </tr>
-</tbody>
-</table>
 
-</mat-card>
-
+<p>
+<div class="limiter">
+<div class="container-table100">
+  <div class="wrap-table100">
+    <div class="table100 ver1 m-b-110">
+      <table data-vertable="ver1">
+        <thead>
+          <tr class="row100 head">
+            <th class="column100 column1" data-column="column1">Method</th>
+            <th class="column100 column2" data-column="column2">Path</th>
+            <th class="column100 column3" data-column="column3">Display Name</th>
+            <th class="column100 column4" data-column="column4">Description</th>
+            <th class="column100 column5" data-column="column5">Query Parameter</th>
+            <th class="column100 column6" data-column="column6">Header Parameter</th>
+            <th class="column100 column7" data-column="column7">Request Body</th>
+            <th class="column100 column8" data-column="column8">Responses Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr mdbTableCol *ngFor="let el of apisDisplayData">
+    <td class="column100 column1" data-column="column1">{{el.properties.method}}</td>
+    <td class="column100 column2" data-column="column2">{{el.id}}</td>
+    <td class="column100 column3" data-column="column3">{{el.name}}</td>
+    <td class="column100 column4" data-column="column4">{{el.properties.description}}</td>
+    <td class="column100 column5" data-column="column5">{{el.properties.request.queryParameters}}</td>
+    <td class="column100 column6" data-column="column6">{{el.properties.method}}</td>
+    <td class="column100 column7" data-column="column7">{{el.properties.request.representations}}</td>
+    <td class="column100 column8" data-column="column8">{{el.name}}</td>
+          </tr>
+          </tbody>
+      </table>
+    </div>
   ` ,
+  styleUrls: ['./app.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
