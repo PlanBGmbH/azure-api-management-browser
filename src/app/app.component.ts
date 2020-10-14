@@ -67,82 +67,82 @@ import { ErrorHandler } from '@angular/core';
         <thead>
           <tr class="row100 head">
             <th class="column100 column1" data-column="column1">
-            Method
-            </th>
-            <th class="column100 column2" data-column="column2">
-            Path
-            </th>
-            <th class="column100 column3" data-column="column3">
-            Display Name
-            </th>
-            <th class="column100 column4" data-column="column4">
-            Description
-            </th>
-            <th class="column100 column5" data-column="column5">
-            Query Parameter
-            </th>
-            <th class="column100 column6" data-column="column6">
-            Header Parameter
-            </th>
-            <th class="column100 column7" data-column="column7">
-            Request Body
-            </th>
-            <th class="column100 column8" data-column="column8">
-            Responses
-            </th>
+            Apies
+           </th>
           </tr>
         </thead>
         <tbody>
         <tr mdbTableCol *ngFor="let el of apisDisplayData">
-            <td class="column100 column1" data-column="column1">
-            {{el.properties?.method}}
-            </td>
-            <td class="column100 column2" data-column="column2">
+        <mat-card style="border: 3px solid black;">
+        <mat-card-title>{{el?.name}} </mat-card-title>
+        <div>
+        <div style="width:33%; display:inline-block;	border: 1px solid black;">
+        <mat-card-title>Method</mat-card-title>
+        {{el?.properties.method}}
+      </div>
+          <div style="width:33%; ; display:inline-block;	border: 1px solid black;">
+          <mat-card-title>Path</mat-card-title>
             {{el?.properties.urlTemplate}}
-            </td>
-            <td class="column100 column3" data-column="column3">
-            {{el?.name}}
-            </td>
-            <td class="column100 column4" data-column="column4">
-            {{el.properties?.description}}
-            </td>
-            <td class="column100 column5" data-column="column5">
-            <span *ngFor = "let item of el.properties.request?.queryParameters">
-            {{item?.description}}
-            {{item?.name}}
-            {{item?.type}}
-              <span *ngFor = "let itm of item.values">
-                Value: {{itm}}
-              </span>
+          </div>
+          <div style="width:33%; ; display:inline-block;	border: 1px solid black;">
+          <mat-card-title>Header</mat-card-title>
+            <span *ngFor="let item of el.properties.request?.header">
+            <div>
+              {{item?.name}}
+              {{item?.description}}
+              {{item?.type}}
+              </div>
             </span>
-            </td>
-            <td class="column100 column6" data-column="column6">
-            <span *ngFor = "let item of el.properties.request?.header">
-            {{item?.name}}
-            {{item?.description}}
-            {{item?.type}}
-           </span>
-            </td>
-            <td class="column100 column7" data-column="column7">
-              <span *ngFor = "let item of el.properties.request?.representations">
-                {{item?.contentType}}
-                {{item?.schemaId}}
-                {{item?.represetypeName}}
-               </span>
-             </td>
-            <td class="column100 column8" data-column="column8">
-            <span *ngFor = "let item of el.properties?.responses">
-            {{item?.statusCode}} {{item?.description}}
-              <span *ngFor = "let itm of item.values">
+          </div>
+        </div>
+        <div>
+          <div style="width:75%; display:inline-block;	border: 1px solid black;">
+          <mat-card-title>Description</mat-card-title>
+            {{el?.properties.description}}
+          </div>
+          <div style="width:25%; ; display:inline-block;	border: 1px solid black;">
+          <mat-card-title>Query Parameter</mat-card-title>
+            <span *ngFor="let item of el.properties.request?.queryParameters">
+            <div>
+              {{item?.description}}
+              {{item?.name}}
+              {{item?.type}}
+              <span *ngFor="let itm of item.values">
                 Value: {{itm}}
               </span>
-              <span *ngFor = "let item of item?.representations">
+              </div>
+            </span>
+          </div>
+        </div>
+        <div>
+          <div style="width:50%; display:inline-block;	border: 1px solid black;">
+          <mat-card-title>Request Body</mat-card-title>
+            <span *ngFor="let item of el.properties.request?.representations">
+            <div>
               {{item?.contentType}}
               {{item?.schemaId}}
               {{item?.represetypeName}}
-             </span>
+              </div>
             </span>
-            </td>
+          </div>
+          <div style="width:50%; ; display:inline-block;	border: 1px solid black;">
+          <mat-card-title>Responses</mat-card-title>
+            <span *ngFor = "let item of el.properties?.responses">
+              {{item?.statusCode}} {{item?.description}}
+                <span *ngFor = "let itm of item.values">
+                  Value: {{itm}}
+                </span>
+                <span *ngFor = "let item of item?.representations">
+                <div>
+                {{item?.contentType}}
+                {{item?.schemaId}}
+                {{item?.represetypeName}}
+                </div>
+               </span>
+              </span>
+          </div>
+        </div>
+      </mat-card>
           </tr>
           </tbody>
       </table>

@@ -21,6 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule, MatIconModule, MatToolbarModule, MatTableModule, MatCardModule } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './Service/TokenInterceptor';
+import { TableRowComponent } from './table-row/table-row.component';
 
 
 
@@ -51,6 +52,7 @@ const modules: any[] = [
 @NgModule({
   declarations: [
     AppComponent,
+    TableRowComponent,
   ],
   imports: [
     BrowserModule,
