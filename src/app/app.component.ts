@@ -1,15 +1,15 @@
 import { Component, Injectable } from '@angular/core';
-import { Service } from './Service';
-import { Apis } from './Apis';
+import { Service } from './Models/Model.Service';
+import { Apis } from './Models/Model.Apis';
 import { HttpClient } from '@angular/common/http';
-import { HttpService } from './http.service';
+import { HttpService } from './Service/http.service';
 import { KeyValuePipe } from '@angular/common';
-import { Display_data } from './Display_data';
+import { Display_data } from './Models/Model.Display_data';
 import { MatTableDataSource } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Observable, of } from 'rxjs';
-import { ApisProperties } from './ApisProperties';
+import { ApisProperties } from './Models/Model.ApisProperties';
 import { ErrorHandler } from '@angular/core';
 
 @Component({
@@ -39,16 +39,16 @@ import { ErrorHandler } from '@angular/core';
           </thead>
           <tbody>
             <tr class="row100" *ngFor="let el of serviceDisplayData">
-              <td class="column100 column1" data-column="column1" (click)="getApiList(el.name)">
+              <td class="column100 column1" data-column="column1" (click)="getApiList(el)">
               {{el?.name}}
               </td>
-              <td class="column100 column2" data-column="column2" value="el.name" (click)="getApiList(el.name)">
+              <td class="column100 column2" data-column="column2" value="el.name" (click)="getApiList(el)">
               {{el?.properties.displayName}}
               </td>
-              <td class="column100 column3" data-column="column3" value="el.name" (click)="getApiList(el.name)">
+              <td class="column100 column3" data-column="column3" value="el.name" (click)="getApiList(el)">
               {{el?.properties.path}}
               </td>
-              <td class="column100 column4" data-column="column4" value="el.name" (click)="getApiList(el.name)">
+              <td class="column100 column4" data-column="column4" value="el.name" (click)="getApiList(el)">
               {{el?.properties.serviceUrl}}
               </td>
             </tr>
@@ -88,7 +88,7 @@ import { ErrorHandler } from '@angular/core';
             Request Body
             </th>
             <th class="column100 column8" data-column="column8">
-            Responses Status
+            Responses
             </th>
           </tr>
         </thead>
@@ -98,7 +98,7 @@ import { ErrorHandler } from '@angular/core';
             {{el.properties?.method}}
             </td>
             <td class="column100 column2" data-column="column2">
-            {{el?.id}}
+            {{el?.properties.urlTemplate}}
             </td>
             <td class="column100 column3" data-column="column3">
             {{el?.name}}
@@ -107,14 +107,21 @@ import { ErrorHandler } from '@angular/core';
             {{el.properties?.description}}
             </td>
             <td class="column100 column5" data-column="column5">
-            
-            {{el.properties.request?.queryParameters.description}}
-            {{el.properties.request?.queryParameters.name}}
-            {{el.properties.request?.queryParameters.type}}
-           
+            <span *ngFor = "let item of el.properties.request?.queryParameters">
+            {{item?.description}}
+            {{item?.name}}
+            {{item?.type}}
+              <span *ngFor = "let itm of item.values">
+                Value: {{itm}}
+              </span>
+            </span>
             </td>
             <td class="column100 column6" data-column="column6">
-            {{el?.properties.method}}
+            <span *ngFor = "let item of el.properties.request?.header">
+            {{item?.name}}
+            {{item?.description}}
+            {{item?.type}}
+           </span>
             </td>
             <td class="column100 column7" data-column="column7">
               <span *ngFor = "let item of el.properties.request?.representations">
@@ -124,7 +131,17 @@ import { ErrorHandler } from '@angular/core';
                </span>
              </td>
             <td class="column100 column8" data-column="column8">
-Test
+            <span *ngFor = "let item of el.properties?.responses">
+            {{item?.statusCode}} {{item?.description}}
+              <span *ngFor = "let itm of item.values">
+                Value: {{itm}}
+              </span>
+              <span *ngFor = "let item of item?.representations">
+              {{item?.contentType}}
+              {{item?.schemaId}}
+              {{item?.represetypeName}}
+             </span>
+            </span>
             </td>
           </tr>
           </tbody>
@@ -164,8 +181,8 @@ export class AppComponent {
     const mapped = Object.keys(this.serviceData).map(key => ({ type: key, value: this.serviceData[key] }));
     this.serviceDisplayData = mapped[0].value;
   }
-  getApiList(param: string) {
-    this.service.getListByApi(param).subscribe(data => {
+  getApiList(services: Service) {
+    this.service.getListByApi(services.name).subscribe(data => {
       console.log(data);
       this.apiData = data;
       this.writeValueToArray();
@@ -179,9 +196,8 @@ export class AppComponent {
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  
   handleError(error) {
-    console.log("This is a test for errors");
+    console.log('This is a test for errors');
   }
 }
 

@@ -1,4 +1,4 @@
-import { ServiceProperties } from './ServiceProperties';
+import { ServiceProperties } from './Model.ServiceProperties';
 // tslint:disable-next-line: class-name
 export class Service {
   name?: string;

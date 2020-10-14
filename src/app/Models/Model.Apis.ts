@@ -1,4 +1,4 @@
-import { ApisProperties } from './ApisProperties';
+import { ApisProperties } from './Model.ApisProperties';
 
 // tslint:disable-next-line: class-name
 export class Apis {

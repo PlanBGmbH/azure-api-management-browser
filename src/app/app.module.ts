@@ -20,7 +20,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { MatNativeDateModule, MatIconModule, MatToolbarModule, MatTableModule, MatCardModule } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './TokenInterceptor';
+import { TokenInterceptor } from './Service/TokenInterceptor';
 
 
 

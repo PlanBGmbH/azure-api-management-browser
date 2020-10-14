@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Service } from './Service';
-import { Apis } from './Apis';
+import { Service } from '../Models/Model.Service';
+import { Apis } from '../Models/Model.Apis';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 export class HttpService {
   constructor(private http: HttpClient) { }
 
-  urlService = 'https://preview-demo-mm.azure-api.net/private/api/management/apis?';
+  urlService = 'https://preview-demo-mm.azure-api.net/private/api/management/apis/';
   urlAPi = 'https://preview-demo-mm.azure-api.net/private/api/management/apis/';
 
   getListByService(): Observable<Service> {
