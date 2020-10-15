@@ -15,96 +15,99 @@ import { ErrorHandler } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-  <div class="table100 ver1 m-b-110">
-  <table data-vertable="ver1">
-    <thead>
-      <tr class="row100 head">
-        <th class="column100 column1" data-column="column1">
-          ID
-        </th>
-        <th class="column100 column2" data-column="column2">
-          Display Name
-        </th>
-        <th class="column100 column3" data-column="column3">
-          Path
-        </th>
-        <th class="column100 column4" data-column="column4">
-          Service Url
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="row100" *ngFor="let el of serviceDisplayData">
-        <td class="column100 column1" data-column="column1" (click)="getApiList(el)">
-          {{el?.name}}
-        </td>
-        <td class="column100 column2" data-column="column2" value="el.name" (click)="getApiList(el)">
-          {{el?.properties.displayName}}
-        </td>
-        <td class="column100 column3" data-column="column3" value="el.name" (click)="getApiList(el)">
-          {{el?.properties.path}}
-        </td>
-        <td class="column100 column4" data-column="column4" value="el.name" (click)="getApiList(el)">
-          {{el?.properties.serviceUrl}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class=" table100 ver1 m-b-110">
+  <mat-list role="list">
+  <div *ngFor="let el of serviceDisplayData" (click)="getApiList(el)">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+
+              <div
+                style="width:25%; display:inline-block; height:100%;border-left: 1px solid black;border-right: 1px solid black;">
+                <mat-card-title>ID: </mat-card-title>
+                 {{el?.name}}
+                </div>
+              
+              <div
+                style="width:25%; display:inline-block; height:100%;border-left: 1px solid black;border-right: 1px solid black;">
+                <mat-card-title>Display Name: </mat-card-title>
+                Display Name: {{el?.properties.displayName}}</div>
+             
+              <div
+                style="width:25%; display:inline-block; height:100%;border-left: 1px solid black;border-right: 1px solid black;">
+                <mat-card-title>Path: </mat-card-title>
+                Path: {{el?.properties.path}}</div>
+              
+
+              <div
+                style="width:25%; display:inline-block; height:100%;border-left: 1px solid black;border-right: 1px solid black;">
+                <mat-card-title>Service Url </mat-card-title>
+                Service Url {{el?.properties.serviceUrl}}</div>
+         
+      
+
+        </mat-expansion-panel-header>
+        <br>
+        <ng-template matExpansionPanelContent>
+
+          <mat-list role="list">
+            <div mdbTableCol *ngFor="let el of apisDisplayData">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <span style="width:25%"> {{el?.properties.method}}</span>
+                  <span style="width:75%"> {{el?.properties.urlTemplate}}</span>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                  <mat-card style="border: 3px solid black;">
+                    <div style="border: 1px solid black;display: flex;">
+                      <div
+                        style="width:50%; ; display:inline-block; height:100%;border-left: 1px solid black;border-right: 1px solid       black;">
+                        <mat-card-title>Display Name</mat-card-title>
+                        {{el?.properties.displayName}}
+                      </div>
+                      <div
+                        style="width:50%;display:inline-block; height:100%; border-left: 1px solid black;border-right: 1px solid  black;">
+                        <mat-card-title>Description</mat-card-title>
+                        {{el?.properties.description}}
+                      </div>
+                    </div>
+                    <div style="border: 1px solid black;display: flex;">
+                      <div
+                        style="width:50%;display:inline-block; height:100%; border-left: 1px solid black;border-right: 1px solid  black;">
+                        <mat-card-title>Header</mat-card-title>
+                        <div *ngFor="let item of el.properties.request?.header">
+                          <div>
+                            <div>Description: {{item?.description}}</div>
+                            <div>Name: {{item?.name}}</div>
+                            <div>Type: {{item?.type}}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style="width:50%;display:inline-block; height:100%; border-left: 1px solid black;border-right: 1px solid black;">
+                        <mat-card-title>Query Parameter</mat-card-title>
+                        <div *ngFor="let item of el.properties.request?.queryParameters">
+                          <div>
+                            <div>Description: {{item?.description}}</div>
+                            <div>Name: {{item?.name}}</div>
+                            <div>Type: {{item?.type}}</div>
+                            <span *ngFor="let itm of item.values">
+                              <div>Value: {{itm}}</div>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card>
+                </ng-template>
+              </mat-expansion-panel>
+            </div>
+          </mat-list>
+        </ng-template>
+      </mat-expansion-panel>
+    </div>
+  </mat-list>
 </div>
 
-<mat-list role="list">
-  <div mdbTableCol *ngFor="let el of apisDisplayData">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <span style="width:25%"> {{el?.properties.method}}</span>
-        <span style="width:75%"> {{el?.properties.urlTemplate}}</span>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-        <mat-card style="border: 3px solid black;">
-          <div style="border: 1px solid black;display: flex;">
-            <div style="width:25%; ; display:inline-block; height:100%;border-left: 1px solid black;border-right: 1px solid
-              black;">
-              <mat-card-title>Display Name</mat-card-title>
-              {{el?.properties.displayName}}
-            </div>
-            <div
-              style="width:75%;display:inline-block; height:100%; border-left: 1px solid black;border-right: 1px solid  black;">
-              <mat-card-title>Description</mat-card-title>
-              {{el?.properties.description}}
-            </div>
-          </div>
-          <div style="border: 1px solid black;display: flex;">
-            <div
-              style="width:50%;display:inline-block; height:100%; border-left: 1px solid black;border-right: 1px solid  black;">
-              <mat-card-title>Header</mat-card-title>
-              <div *ngFor="let item of el.properties.request?.header">
-                <div>
-                  <div>Description: {{item?.description}}</div>
-                  <div>Name:  {{item?.name}}</div>
-                  <div>Type:  {{item?.type}}</div>
-                </div>
-              </div>
-            </div>
-            <div
-              style="width:50%;display:inline-block; height:100%; border-left: 1px solid black;border-right: 1px solid black;">
-              <mat-card-title>Query Parameter</mat-card-title>
-              <div *ngFor="let item of el.properties.request?.queryParameters">
-                <div>
-                <div>Description: {{item?.description}}</div>
-                <div>Name:  {{item?.name}}</div>
-                <div>Type:  {{item?.type}}</div>
-                  <span *ngFor="let itm of item.values">
-                    <div>Value: {{itm}}</div>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-card>
-      </ng-template>
-    </mat-expansion-panel>
-  </div>
-</mat-list>
   ` ,
   styleUrls: ['./app.component.css'],
   animations: [
