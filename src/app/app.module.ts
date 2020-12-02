@@ -69,6 +69,14 @@ const modules: any[] = [
   MatIconModule,
   MatToolbarModule,
   MatCardModule,
+  BrowserAnimationsModule,
+  BrowserModule,
+
+  MatInputModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatProgressSpinnerModule,
 
   MatAutocompleteModule,
   MatBadgeModule,

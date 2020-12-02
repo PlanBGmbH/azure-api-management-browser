@@ -13,8 +13,8 @@ import { map } from 'rxjs/operators';
 export class HttpService {
   constructor(private http: HttpClient) { }
 
-  urlService = 'https://preview-demo-mm.azure-api.net/private/api/management/apis/';
-  urlAPi = 'https://preview-demo-mm.azure-api.net/private/api/management/apis/';
+  urlService = 'https://preview-demo-mm01.azure-api.net/private/api/management/apis/';
+  urlAPi = 'https://preview-demo-mm01.azure-api.net/private/api/management/apis/';
 
   getListByService(): Observable<Service> {
     return this
@@ -23,6 +23,7 @@ export class HttpService {
   }
 
   getListByApi(param: string): Observable<Apis> {
+    console.log("Service");
     return this
       .http
       .get<Apis>(this.urlAPi + param);

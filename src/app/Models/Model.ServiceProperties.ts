@@ -4,4 +4,5 @@ export class ServiceProperties {
   description?: string;
   serviceUrl?: string;
   urlTemplate?: string;
+  apiVersion?: string;
 }
