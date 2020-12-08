@@ -37,6 +37,7 @@ export class AppComponent {
   apisDisplayData: Apis[];
   //Paginator
   datasource: null;
+  selected = '1';
 
   p: number = 1;
 
@@ -71,7 +72,7 @@ export class AppComponent {
   writeValueToArray() {
     const mapped = Object.keys(this.serviceData).map(key => ({ type: key, value: this.serviceData[key] }));
     this.serviceDisplayData = mapped[0].value;
-    console.log( this.serviceDisplayData);
+    console.log(this.serviceDisplayData);
   }
   getApiList(services: Service) {
     this.service.getListByApi(services.name, this.viewDataToggle).subscribe(data => {
@@ -85,7 +86,12 @@ export class AppComponent {
   }
 
   onChange() {
-    this.viewDataToggle = !this.viewDataToggle;
+    if (this.selected == "1") {
+      this.viewDataToggle = true;
+    } else {
+      this.viewDataToggle = false;
+    }
+
 
     this.ngOnInit();
 

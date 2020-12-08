@@ -1,7 +1,9 @@
 <div>
-  <div style="text-align: center;">
-    Production
-    <mat-slide-toggle (change)="onChange()">Staged</mat-slide-toggle>
+Changed  <div class="dropdown">
+    <mat-select [(value)]="selected" (change)="onChange()">
+      <mat-option value="1" (click)="onChange()">Production</mat-option>
+      <mat-option value="2" (click)="onChange()">Staged</mat-option>    
+    </mat-select>
   </div>
   <div>
     <mat-list role="list" style="background-color: white;">
@@ -44,7 +46,7 @@
                   <mat-divider></mat-divider>
                   <mat-expansion-panel style="background-color: white;color:black ; ">
                     <mat-expansion-panel-header class="child" [ngClass]="i % 2 === 0 ? 'even-child' : 'odd-child'">
-                      <span style="width:33.33%"> {{el?.properties.method}}</span>
+                      <span style="width:33.33%"  ><span [ngClass]="[el?.properties.method === 'GET' ? 'getClass' :'', el?.properties.method === 'PUT' ? 'putClass':'',el?.properties.method === 'POST' ? 'postClass':'',el?.properties.method === 'DELETE' ? 'deleteClass':'']" >{{el?.properties.method}} </span></span>
                       <span style="width:33.33%"> {{el?.properties.urlTemplate}}</span>
                       <span style="width:33.33%"> {{el?.properties.displayName}}</span>
                     </mat-expansion-panel-header>

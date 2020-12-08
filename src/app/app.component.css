@@ -29,3 +29,29 @@ mat-toolbar{
   text-overflow: ellipsis;
 } */
 
+
+.dropdown{
+  text-align: left;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+}
+
+
+
+.postClass{
+  background: #49cc90;
+}
+
+.putClass{
+  background: #fca130;
+  
+}
+
+.getClass{
+  background: #61affe;
+}
+
+.deleteClass {
+  background: #f93e3e;
+}
