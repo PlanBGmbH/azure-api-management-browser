@@ -29,10 +29,8 @@ jobs:
       run: |
         npm install
         npm run build --if-present
-    - name: Run Azure PowerShell script   
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
+    - name: Run Az CLI script  
+      run: |
           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
         # Azure logout 
     - name: logout
