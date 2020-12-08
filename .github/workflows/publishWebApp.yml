@@ -11,13 +11,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}    
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
-            az storage blob upload-batch --account-name 'azureapimanagementplanb' -d '$web' -s .
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Setup Node 10.x
       uses: actions/setup-node@v1
       with:
@@ -28,7 +22,7 @@ jobs:
         npm run build --if-present
     - name: Run Az CLI script  
       run: |
-          az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+        az storage blob upload-batch --account-name 'azureapimanagementplanb' -d '$web' -s .
         # Azure logout 
     - name: logout
       run: |
