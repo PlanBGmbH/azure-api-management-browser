@@ -3,10 +3,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps: 
-    - uses: actions/checkout@v1
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/checkout@master
+
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
       with:
-        dotnet-version: '3.0.100'
+        node-version: '10.x'
+    - name: 'npm install, build, and test'
+      run: |
+        npm install
+        npm run build --if-present
+        npm run test --if-present
     - uses: lauchacarro/Azure-Storage-Action@master
       with:
         enabled-static-website: 'true'
