@@ -1,50 +1,56 @@
 <div>
-
-
+  <div style="text-align: center;">
+    Production
+    <mat-slide-toggle (change)="onChange()">Staged</mat-slide-toggle>
+  </div>
   <div>
     <mat-list role="list" style="background-color: white;">
       <!-- <mat-paginator [length]="length" [pageSize]="pageSize [pageSizeOptions]="pageSizeOptions" (page)= "pageEvent = getServerData($event)">
       </mat-paginator> -->
-      <div style=" padding:0px 24px;">
-        <div style="width: 50%; display:inline-block; height:100%">
+      <div style=" padding:0px 24px; b">
+        <div style="width: 33%; display:inline-block; height:100%">
           <h2 mat-subheader style="color:black; padding:0 ">Display Name</h2>
         </div>
-        <div style="width:50%; display:inline-block; height:100 ">
+        <div style="width:33%; display:inline-block; height:100 ">
           <h2 mat-subheader style="color:black; padding:0  ">Path</h2>
         </div>
+        <div style="width:33%; display:inline-block; height:100 ">
+          <h2 mat-subheader style="color:black; padding:0  ">Description</h2>
+        </div>
       </div>
-      <div *ngFor="let el of serviceDisplayData;index as i">
+
+
+      <div *ngFor="let el of serviceDisplayData | paginate: { itemsPerPage: 2, currentPage: p };index as i " >
         <mat-accordion>
           <mat-expansion-panel style="background-color: white;" [expanded]="step === i" (opened)="setStep(i)">
-            <mat-expansion-panel-header (click)="getApiList(el)">
-              <div style="width:50%; display:inline-block; height:100%;color:black">
+
+            <mat-expansion-panel-header (click)="getApiList(el)" [ngClass]="i % 2 === 0 ? 'even' : 'odd'" >
+              <div style="width:33%; display:inline-block; height:100%;color:black">
                 {{el?.properties.displayName}} <div *ngIf=" el?.properties.apiVersion">
                   ({{el?.properties.apiVersion}})</div>
               </div>
-              <div style="width:50%; display:inline-block; height:100%;color:black;">
+              <div style="width:33%; display:inline-block; height:100%;color:black;">
                 {{el?.properties.path}}
+              </div>
+              <div style="width:33%; display:inline-block; height:100%;color:black;  word-wrap: break-word;;" ng-init="limit = 150" class="text">
+                 {{el?.properties.description}} 
               </div>
             </mat-expansion-panel-header>
             <br>
             <ng-template matExpansionPanelContent>
 
               <mat-list role="list">
-                <div mdbTableCol *ngFor="let el of apisDisplayData; index as i">
+                <div mdbTableCol *ngFor="let el of apisDisplayData; index as i ">
                   <mat-divider></mat-divider>
-                  <mat-expansion-panel style="background-color: white;color:black" >
-                    <mat-expansion-panel-header>
+                  <mat-expansion-panel style="background-color: white;color:black ; ">
+                    <mat-expansion-panel-header class="child" [ngClass]="i % 2 === 0 ? 'even-child' : 'odd-child'">
                       <span style="width:33.33%"> {{el?.properties.method}}</span>
                       <span style="width:33.33%"> {{el?.properties.urlTemplate}}</span>
                       <span style="width:33.33%"> {{el?.properties.displayName}}</span>
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
                       <mat-card style=" background-color:white;color:black">
-                        <div style="display: flex;">
-                          <div style="">
-                            <h3> Description </h3>
-                            {{el?.properties.description}}
-                          </div>
-                        </div>
+
                         <div style="display: flex;">
                           <div style="">
                             <h3> Header </h3>
@@ -73,12 +79,17 @@
                   </mat-expansion-panel>
                   <mat-divider></mat-divider>
                 </div>
+
               </mat-list>
             </ng-template>
           </mat-expansion-panel>
+
         </mat-accordion>
         <mat-divider></mat-divider>
 
+      </div>
+      <div style="text-align-last: center; padding-bottom: 5px;">
+        <pagination-controls (pageChange)="p = $event" (click)="setStep(-1)"></pagination-controls>
       </div>
     </mat-list>
   </div>

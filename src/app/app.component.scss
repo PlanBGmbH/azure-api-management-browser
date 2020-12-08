@@ -15,6 +15,14 @@ mat-toolbar{
   background-color: #FF5733;
 }
 
+mat-expansion-panel{
+  background-color: #FF5733;
+}
+
+mat-expansion-panel::after{
+  background-color: #FF5733;
+}
+
 
 tbody{
   background-color: grey;

@@ -30,15 +30,15 @@ import { ErrorHandler } from '@angular/core';
 
 export class AppComponent {
   panelOpenState = false;
+  viewDataToggle = true;
   serviceData: Service;
   apiData: Apis;
   serviceDisplayData: Service[];
   apisDisplayData: Apis[];
   //Paginator
   datasource: null;
-  pageIndex:number;
-  pageSize:number;
-  length:number;
+
+  p: number = 1;
 
   step = -1;
 
@@ -55,48 +55,40 @@ export class AppComponent {
   }
 
 
-  // MatPaginator Output
-  pageEvent: PageEvent;
-
-
-
   constructor(private service: HttpService) { }
 
 
   ngOnInit() {
-    this.service.getListByService().subscribe(data => {
+    this.service.getListByService(this.viewDataToggle).subscribe(data => {
       this.serviceData = data;
       this.writeValueToArray();
       console.log("TEST");
     });
   }
 
-  public getServerData(event?: PageEvent) {
 
-    // this.datasource =  this.serviceDisplayData;
-    // this.pageIndex = this.serviceDisplayData.pageIndex;
-    // this.pageSize = this.serviceDisplayData.pageSize;
-    this.length = this.serviceDisplayData.length;
-    return this.serviceData;
-  }
 
   writeValueToArray() {
     const mapped = Object.keys(this.serviceData).map(key => ({ type: key, value: this.serviceData[key] }));
     this.serviceDisplayData = mapped[0].value;
+    console.log( this.serviceDisplayData);
   }
   getApiList(services: Service) {
-    this.service.getListByApi(services.name).subscribe(data => {
+    this.service.getListByApi(services.name, this.viewDataToggle).subscribe(data => {
       console.log(data);
       this.apiData = data;
       console.log(this.apiData);
       const mapped = Object.keys(this.apiData).map(key => ({ type: key, value: this.apiData[key] }));
       this.apisDisplayData = mapped[0].value;
       console.log(this.apisDisplayData);
-    }); 
+    });
   }
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    // this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  onChange() {
+    this.viewDataToggle = !this.viewDataToggle;
+
+    this.ngOnInit();
+
   }
 }
 

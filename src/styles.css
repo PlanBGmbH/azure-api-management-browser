@@ -2,3 +2,30 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-expansion-panel{
+  box-shadow: none !important;
+}
+
+.mat-expansion-indicator::after{
+  color:black !important;
+}
+
+
+.mat-expansion-panel:not(.mat-expanded):hover{
+  background-color: rgba(255, 69, 0, 0.2)  !important;
+}
+
+.mat-expansion-panel:not(.mat-expanded){
+  display: block;
+  
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+.mat-expanded{
+  height: 100% !important;
+}
+

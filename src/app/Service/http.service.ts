@@ -13,20 +13,33 @@ import { map } from 'rxjs/operators';
 export class HttpService {
   constructor(private http: HttpClient) { }
 
-  urlService = 'https://preview-demo-mm01.azure-api.net/private/api/management/apis/';
-  urlAPi = 'https://preview-demo-mm01.azure-api.net/private/api/management/apis/';
+  urlServiceProd = 'https://preview-demo-mm01.azure-api.net/private/api/management/apis/';
+  urlServiceStaged = 'https://preview-demo-mm01.azure-api.net/private/api/management/dev/apis/';
 
-  getListByService(): Observable<Service> {
-    return this
-      .http
-      .get<Service>(this.urlService);
+  getListByService(viewDataToggle: boolean): Observable<Service> {
+    if (viewDataToggle) {
+      return this
+        .http
+        .get<Service>(this.urlServiceProd);
+    } else {
+      return this
+        .http
+        .get<Service>(this.urlServiceStaged);
+    }
+
   }
 
-  getListByApi(param: string): Observable<Apis> {
-    console.log("Service");
-    return this
-      .http
-      .get<Apis>(this.urlAPi + param);
+  getListByApi(param: string, viewDataToggle: boolean): Observable<Apis> {
+    if (viewDataToggle) {
+      return this
+        .http
+        .get<Apis>(this.urlServiceProd + param);
+    } else {
+      return this
+        .http
+        .get<Apis>(this.urlServiceStaged + param);
+    }
+
   }
 }
 

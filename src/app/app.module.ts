@@ -45,6 +45,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './Service/TokenInterceptor';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 
@@ -52,6 +53,8 @@ const modules: any[] = [
 
   LayoutModule,
   CommonModule,
+
+  NgxPaginationModule,
 
   MatAutocompleteModule,
   MatExpansionModule,

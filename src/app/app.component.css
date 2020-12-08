@@ -1,0 +1,31 @@
+mat-toolbar{
+  background-color: #FF5733 !important;
+}
+
+/* mat-expansion-panel-header{
+  background-color: black;
+
+}
+  mat-expansion-panel-header:nth-of-type(odd) {
+  background-color: red;
+} */
+
+
+/* mat-expansion-panel-header{background: #CCC}*/
+
+.even{background: #CCC} 
+
+.odd {background: white}
+
+.even-child{background: rgba(204, 204, 204, 0.4)} 
+
+.odd-child {background: white}
+
+/* .text {
+  display: block;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+} */
+
