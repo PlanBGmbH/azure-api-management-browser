@@ -1,9 +1,6 @@
 name: Blob storage website CI
 
-on:
-push:
-    branches: [ master ]
-
+on: [push]
 
 jobs:
   build-and-deploy:
