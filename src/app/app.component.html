@@ -19,7 +19,6 @@
         </div>
       </div>
 
-
       <div *ngFor="let el of serviceDisplayData | paginate: { itemsPerPage: 2, currentPage: p };index as i " >
         <mat-accordion>
           <mat-expansion-panel style="background-color: white;" [expanded]="step === i" (opened)="setStep(i)">
