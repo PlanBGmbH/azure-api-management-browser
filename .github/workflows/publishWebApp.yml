@@ -22,7 +22,7 @@ jobs:
         npm run build --if-present --prod --base-href=/dist/ --output-path=./build
     - name: Run Az CLI script  
       run: |
-re        az storage blob upload-batch --account-name 'azureapimanagementplanb' -s ./build -d '$web'
+        az storage blob upload-batch --account-name 'azureapimanagementplanb' -s ./build -d '$web'
         # Azure logout 
     - name: logout
       run: |
