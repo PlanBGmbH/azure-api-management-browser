@@ -41,17 +41,22 @@ mat-toolbar{
 
 .postClass{
   background: #49cc90;
+  border-radius: 25px;
 }
 
 .putClass{
   background: #fca130;
-  
+  border-radius: 25px;
 }
 
 .getClass{
   background: #61affe;
+  border-radius: 25px;
 }
 
 .deleteClass {
   background: #f93e3e;
+  border-radius: 25px;
+  width: 55px;
+  height: 20px;
 }

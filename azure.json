@@ -1,0 +1,17 @@
+{
+  "hosting": [
+    {
+      "app": {
+        "project": "azure-api-management-browser",
+        "target": "build",
+        "configuration": "production",
+        "path": "dist/azure-api-management-browser"
+      },
+      "azureHosting": {
+        "subscription": "f9642e98-0544-493e-ac30-e67f106fecdf",
+        "resourceGroupName": "azure-api-management-browser-static-deploy",
+        "account": "azureapimanagementstatic"
+      }
+    }
+  ]
+}
