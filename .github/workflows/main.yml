@@ -1,0 +1,21 @@
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@master
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: 'npm install and build'
+      run: |
+        npm install
+        npm run build --if-present
+    - uses: lauchacarro/Azure-Storage-Action@master
+      with:
+        enabled-static-website: 'true'
+        folder: '/$web'
+        index-document: 'index.html'
+        error-document: 'index.html' # For Angular apps with routing enabled, this must point to the index.html file because the requested routes don't exist phyiscally and blob storage would throw a 404.
+        connection-string: ${{ secrets.CONNECTION_STRING }}
