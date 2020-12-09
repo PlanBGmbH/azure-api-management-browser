@@ -4,7 +4,6 @@ import { Apis } from './Models/Model.Apis';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './Service/http.service';
 import { KeyValuePipe } from '@angular/common';
-import { Display_data } from './Models/Model.Display_data';
 import { MatTableDataSource, PageEvent } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -15,7 +14,7 @@ import { ErrorHandler } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  //templateUrl: './mat-table-component/mat-table-component.component.html',
+  // templateUrl: './mat-table-component/mat-table-component.component.html',
   styleUrls: ['./app.component.css'],
   animations: [
     trigger('detailExpand', [
@@ -35,11 +34,11 @@ export class AppComponent {
   apiData: Apis;
   serviceDisplayData: Service[];
   apisDisplayData: Apis[];
-  //Paginator
   datasource: null;
+  // Paginator
   selected = '1';
 
-  p: number = 1;
+  p = 1;
 
   step = -1;
 
@@ -59,11 +58,11 @@ export class AppComponent {
   constructor(private service: HttpService) { }
 
 
+  // tslint:disable-next-line: use-life-cycle-interface
   ngOnInit() {
     this.service.getListByService(this.viewDataToggle).subscribe(data => {
       this.serviceData = data;
       this.writeValueToArray();
-      console.log("TEST");
     });
   }
 
@@ -86,7 +85,7 @@ export class AppComponent {
   }
 
   onChange() {
-    if (this.selected == "1") {
+    if (this.selected === '1') {
       this.viewDataToggle = true;
     } else {
       this.viewDataToggle = false;
