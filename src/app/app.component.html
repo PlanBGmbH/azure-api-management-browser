@@ -1,8 +1,8 @@
-<div>
- <div class="dropdown">
+<div class="textSytle">
+  <div class="dropdown">
     <mat-select [(value)]="selected" (change)="onChange()">
       <mat-option value="1" (click)="onChange()">Production</mat-option>
-      <mat-option value="2" (click)="onChange()">Staged</mat-option>    
+      <mat-option value="2" (click)="onChange()">Staged</mat-option>
     </mat-select>
   </div>
   <div>
@@ -19,11 +19,14 @@
         </div>
       </div>
 
-      <div *ngFor="let el of serviceDisplayData | paginate: { itemsPerPage: 2, currentPage: p };index as i " >
+        <mat-spinner *ngIf="!isWait" class="progressSpinner"></mat-spinner>
+  
+      <ng-template #elseBlock>     </ng-template>
+      <div *ngFor="let el of serviceDisplayData | paginate: { itemsPerPage: 2, currentPage: p };index as i ">
         <mat-accordion>
           <mat-expansion-panel style="background-color: white;" [expanded]="step === i" (opened)="setStep(i)">
 
-            <mat-expansion-panel-header (click)="getApiList(el)" [ngClass]="i % 2 === 0 ? 'even' : 'odd'" >
+            <mat-expansion-panel-header (click)="getApiList(el)" [ngClass]="i % 2 === 0 ? 'even' : 'odd'">
               <div style="width:33%; display:inline-block; height:100%;color:black">
                 {{el?.properties.displayName}} <div *ngIf=" el?.properties.apiVersion">
                   ({{el?.properties.apiVersion}})</div>
@@ -31,8 +34,9 @@
               <div style="width:33%; display:inline-block; height:100%;color:black;">
                 {{el?.properties.path}}
               </div>
-              <div style="width:33%; display:inline-block; height:100%;color:black;  word-wrap: break-word;;" ng-init="limit = 150" class="text">
-                 {{el?.properties.description}} 
+              <div style="width:33%; display:inline-block; height:100%;color:black;  word-wrap: break-word;;"
+                ng-init="limit = 150" class="text">
+                {{el?.properties.description}}
               </div>
             </mat-expansion-panel-header>
             <br>
@@ -40,10 +44,13 @@
 
               <mat-list role="list">
                 <div mdbTableCol *ngFor="let el of apisDisplayData; index as i ">
+                  <mat-spinner *ngIf="!isWaitApies" class="progressSpinner"></mat-spinner>
                   <mat-divider></mat-divider>
                   <mat-expansion-panel style="background-color: white;color:black ; ">
                     <mat-expansion-panel-header class="child" [ngClass]="i % 2 === 0 ? 'even-child' : 'odd-child'">
-                      <span style="width:33.33%"  ><span [ngClass]="[el?.properties.method === 'GET' ? 'getClass' :'', el?.properties.method === 'PUT' ? 'putClass':'',el?.properties.method === 'POST' ? 'postClass':'',el?.properties.method === 'DELETE' ? 'deleteClass':'']" >{{el?.properties.method}} </span></span>
+                      <span style="width:33.33%"><span
+                          [ngClass]="[el?.properties.method === 'GET' ? 'getClass' :'', el?.properties.method === 'PUT' ? 'putClass':'',el?.properties.method === 'POST' ? 'postClass':'',el?.properties.method === 'DELETE' ? 'deleteClass':'']">{{el?.properties.method}}
+                        </span></span>
                       <span style="width:33.33%"> {{el?.properties.urlTemplate}}</span>
                       <span style="width:33.33%"> {{el?.properties.displayName}}</span>
                     </mat-expansion-panel-header>
@@ -51,7 +58,7 @@
                       <mat-card style=" background-color:white;color:black">
 
                         <div style="display: flex;">
-                          <div style="">
+                          <div>
                             <h3> Header </h3>
                             <div *ngFor="let item of el.properties.request?.header">
                               <div>
@@ -87,6 +94,7 @@
         <mat-divider></mat-divider>
 
       </div>
+
       <div style="text-align-last: center; padding-bottom: 5px;">
         <pagination-controls (pageChange)="p = $event" (click)="setStep(-1)"></pagination-controls>
       </div>

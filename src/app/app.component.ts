@@ -35,6 +35,8 @@ export class AppComponent {
   serviceDisplayData: Service[];
   apisDisplayData: Apis[];
   datasource: null;
+  isWait = false;
+  isWaitApies = false;
   // Paginator
   selected = '1';
 
@@ -72,6 +74,7 @@ export class AppComponent {
     const mapped = Object.keys(this.serviceData).map(key => ({ type: key, value: this.serviceData[key] }));
     this.serviceDisplayData = mapped[0].value;
     console.log(this.serviceDisplayData);
+    this.isWait = true;
   }
   getApiList(services: Service) {
     this.service.getListByApi(services.name, this.viewDataToggle).subscribe(data => {
@@ -80,6 +83,7 @@ export class AppComponent {
       console.log(this.apiData);
       const mapped = Object.keys(this.apiData).map(key => ({ type: key, value: this.apiData[key] }));
       this.apisDisplayData = mapped[0].value;
+      this.isWaitApies = true;
       console.log(this.apisDisplayData);
     });
   }
@@ -90,6 +94,8 @@ export class AppComponent {
     } else {
       this.viewDataToggle = false;
     }
+    this.isWait = false;
+    this.step = -1;
 
 
     this.ngOnInit();
@@ -103,6 +109,8 @@ export class GlobalErrorHandler implements ErrorHandler {
     console.log('This is a test for errors');
   }
 }
+
+
 
 
 
