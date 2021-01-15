@@ -1,80 +1,91 @@
-mat-toolbar{
-  background-color: #FF5733 !important;
+mat-toolbar {
+    background-color: #FF5733 !important;
 }
+
 
 /* mat-expansion-panel-header{
-  background-color: black;
+background-color: black;
 
 }
-  mat-expansion-panel-header:nth-of-type(odd) {
-  background-color: red;
+mat-expansion-panel-header:nth-of-type(odd) {
+background-color: red;
 } */
 
 
 /* mat-expansion-panel-header{background: #CCC}*/
 
-.even{background: #CCC} 
+.even {
+    background: #CCC
+}
 
-.odd {background: white}
+.odd {
+    background: white
+}
 
-.even-child{background: rgba(204, 204, 204, 0.4)} 
+.even-child {
+    background: rgba(204, 204, 204, 0.4)
+}
 
-.odd-child {background: white}
+.odd-child {
+    background: white
+}
+
 
 /* .text {
-  display: block;
-  width: 100px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+display: block;
+width: 100px;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
 } */
 
-
-.dropdown{
-  text-align: left;
+.dropdown {
+    text-align: left;
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 15px;
-    width:25%;
+    width: 25%;
     background-color: rgba(204, 204, 204, 0.4);
 }
 
-
-
-.postClass{
-  background: #49cc90;
-  border-radius: 25px;
+.httpRestMethod {
+    border-radius: 25px;
+    padding: 10px;
+    font-weight: 400;
 }
 
-.putClass{
-  background: #fca130;
-  border-radius: 25px;
+.postClass {
+    background: #49cc90;
 }
 
-.getClass{
-  background: #61affe;
-  border-radius: 25px;
+.putClass {
+    background: #fca130;
+}
+
+.getClass {
+    background: #61affe;
 }
 
 .deleteClass {
-  background: #f93e3e;
-  border-radius: 25px;
-  width: 55px;
-  height: 20px;
+    background: #f93e3e;
+    border-radius: 25px;
+    width: 55px;
+    height: 20px;
 }
 
-.headerStyle{
-background-color: rgba(0,0,0,0.6);
+.headerStyle {
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
-.textSytle{
-  font:Helvetica;
-  font-size: 14px;
-  line-height: 21px;
-  color: #747678;
-  letter-spacing: 0.01em;
+.textSytle {
+    font: Helvetica;
+    font-size: 14px;
+    line-height: 21px;
+    color: #747678;
+    letter-spacing: 0.01em;
 }
-.progressSpinner{
-  text-align: center;
-  margin:0 auto;
+
+.progressSpinner {
+    text-align: center;
+    margin: 0 auto;
 }

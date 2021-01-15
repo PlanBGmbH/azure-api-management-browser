@@ -5,5 +5,4 @@ export class Apis {
   name?: string;
   id?: string;
   properties?: ApisProperties;
-  
 }

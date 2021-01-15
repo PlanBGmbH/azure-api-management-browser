@@ -1,103 +1,105 @@
 <div class="textSytle">
-  <div class="dropdown">
-    <mat-select [(value)]="selected" (change)="onChange()">
-      <mat-option value="1" (click)="onChange()">Production</mat-option>
-      <mat-option value="2" (click)="onChange()">Staged</mat-option>
-    </mat-select>
-  </div>
-  <div>
-    <mat-list role="list" style="background-color: white;">
-      <div style=" padding:0px 24px;">
-        <div style="width: 33%; display:inline-block; height:100%">
-          <h2 mat-subheader style="color:black; padding:0 ">Display Name</h2>
-        </div>
-        <div style="width:33%; display:inline-block; height:100 ">
-          <h2 mat-subheader style="color:black; padding:0  ">Path</h2>
-        </div>
-        <div style="width:33%; display:inline-block; height:100 ">
-          <h2 mat-subheader style="color:black; padding:0  ">Description</h2>
-        </div>
-      </div>
+    <div class="dropdown">
+        <mat-select [(value)]="activeStage" (selectionChange)="onChange($event)">
+            <mat-option value="{{SelectStages.production}}">{{SelectStages.production}}</mat-option>
+            <mat-option value="{{SelectStages.stage}}">{{SelectStages.stage}}</mat-option>
+        </mat-select>
+    </div>
+    <div>
+        <mat-list role="list" style="background-color: white;">
+            <div style=" padding:0px 24px;">
+                <div style="width: 33%; display:inline-block; height:100%">
+                    <h2 mat-subheader style="color:black; padding:0 ">Display Name</h2>
+                </div>
+                <div style="width:33%; display:inline-block; height:100 ">
+                    <h2 mat-subheader style="color:black; padding:0  ">Path</h2>
+                </div>
+                <div style="width:33%; display:inline-block; height:100 ">
+                    <h2 mat-subheader style="color:black; padding:0  ">Description</h2>
+                </div>
+            </div>
 
-        <mat-spinner *ngIf="!isWait" class="progressSpinner"></mat-spinner>
-  
-      <ng-template #elseBlock>     </ng-template>
-      <div *ngFor="let el of serviceDisplayData | paginate: { itemsPerPage: 2, currentPage: p };index as i ">
-        <mat-accordion>
-          <mat-expansion-panel style="background-color: white;" [expanded]="step === i" (opened)="setStep(i)">
+            <mat-spinner *ngIf="!isWait" class="progressSpinner"></mat-spinner>
 
-            <mat-expansion-panel-header (click)="getApiList(el)" [ngClass]="i % 2 === 0 ? 'even' : 'odd'">
-              <div style="width:33%; display:inline-block; height:100%;color:black">
-                {{el?.properties.displayName}} <div *ngIf=" el?.properties.apiVersion">
-                  ({{el?.properties.apiVersion}})</div>
-              </div>
-              <div style="width:33%; display:inline-block; height:100%;color:black;">
-                {{el?.properties.path}}
-              </div>
-              <div style="width:33%; display:inline-block; height:100%;color:black;  word-wrap: break-word;;"
-                ng-init="limit = 150" class="text">
-                {{el?.properties.description}}
-              </div>
-            </mat-expansion-panel-header>
-            <br>
-            <ng-template matExpansionPanelContent>
+            <ng-template #elseBlock> </ng-template>
+            <div *ngFor="let page of pages | paginate: { itemsPerPage: 1, currentPage: selectedPageIndex+1 };index as i ">
 
-              <mat-list role="list">
-                <div mdbTableCol *ngFor="let el of apisDisplayData; index as i ">
-                  <mat-spinner *ngIf="!isWaitApies" class="progressSpinner"></mat-spinner>
-                  <mat-divider></mat-divider>
-                  <mat-expansion-panel style="background-color: white;color:black ; ">
-                    <mat-expansion-panel-header class="child" [ngClass]="i % 2 === 0 ? 'even-child' : 'odd-child'">
-                      <span style="width:33.33%"><span
+
+                <div *ngFor="let service of ($ServicestoDisplay| async)">
+                    <mat-accordion>
+                        <mat-expansion-panel style="background-color: white;" [expanded]="service.id == selectedApiId">
+
+                            <mat-expansion-panel-header (click)="getApiList(service)" [ngClass]="i % 2 === 0 ? 'even' : 'odd'">
+                                <div style="width:33%; display:inline-block; height:100%;color:black">
+                                    {{service?.properties.displayName}}
+                                    <div *ngIf=" service?.properties.apiVersion">
+                                        ({{service?.properties.apiVersion}})</div>
+                                </div>
+                                <div style="width:33%; display:inline-block; height:100%;color:black;">
+                                    {{service?.properties.path}}
+                                </div>
+                                <div style="width:33%; display:inline-block; height:100%;color:black;  word-wrap: break-word;;" ng-init="limit = 150" class="text">
+                                    {{service?.properties.description}}
+                                </div>
+                            </mat-expansion-panel-header>
+                            <br>
+                            <ng-template matExpansionPanelContent>
+
+                                <mat-list role="list">
+                                    <div mdbTableCol *ngFor="let el of apisDisplayData; index as i ">
+                                        <mat-spinner *ngIf="!isWaitApies" class="progressSpinner"></mat-spinner>
+                                        <mat-divider></mat-divider>
+                                        <mat-expansion-panel style="background-color: white;color:black ; ">
+                                            <mat-expansion-panel-header class="child" [ngClass]="i % 2 === 0 ? 'even-child' : 'odd-child'">
+                                                <span style="width:33.33%"><span class="httpRestMethod" 
                           [ngClass]="[el?.properties.method === 'GET' ? 'getClass' :'', el?.properties.method === 'PUT' ? 'putClass':'',el?.properties.method === 'POST' ? 'postClass':'',el?.properties.method === 'DELETE' ? 'deleteClass':'']">{{el?.properties.method}}
                         </span></span>
-                      <span style="width:33.33%"> {{el?.properties.urlTemplate}}</span>
-                      <span style="width:33.33%"> {{el?.properties.displayName}}</span>
-                    </mat-expansion-panel-header>
-                    <ng-template matExpansionPanelContent>
-                      <mat-card style=" background-color:white;color:black">
+                                                <span style="width:33.33%"> {{el?.properties.urlTemplate}}</span>
+                                                <span style="width:33.33%"> {{el?.properties.displayName}}</span>
+                                            </mat-expansion-panel-header>
+                                            <ng-template matExpansionPanelContent>
+                                                <mat-card style=" background-color:white;color:black">
 
-                        <div style="display: flex;">
-                          <div>
-                            <h3> Header </h3>
-                            <div *ngFor="let item of el.properties.request?.header">
-                              <div>
-                                <div>({{item?.type}}) {{item?.name}} {{item?.description}}</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <div>
-                            <h3> Query Parameter </h3>
-                            <div *ngFor="let item of el.properties.request?.queryParameters">
-                              <div>
-                                <div>({{item?.type}}) {{item?.name}} {{item?.description}}</div>
-                                <span *ngFor="let itm of item.values; index as i">
+                                                    <div style="display: flex;">
+                                                        <div>
+                                                            <h3> Header </h3>
+                                                            <div *ngFor="let item of el.properties.request?.header">
+                                                                <div>
+                                                                    <div>({{item?.type}}) {{item?.name}} {{item?.description}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <h3> Query Parameter </h3>
+                                                            <div *ngFor="let item of el.properties.request?.queryParameters">
+                                                                <div>
+                                                                    <div>({{item?.type}}) {{item?.name}} {{item?.description}}</div>
+                                                                    <span *ngFor="let itm of item.values; index as i">
                                   <div>Param{{i+1}}: {{itm}}</div>
                                 </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </mat-card>
-                    </ng-template>
-                  </mat-expansion-panel>
-                  <mat-divider></mat-divider>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </mat-card>
+                                            </ng-template>
+                                        </mat-expansion-panel>
+                                        <mat-divider></mat-divider>
+                                    </div>
+
+                                </mat-list>
+                            </ng-template>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <mat-divider></mat-divider>
                 </div>
+            </div>
 
-              </mat-list>
-            </ng-template>
-          </mat-expansion-panel>
-
-        </mat-accordion>
-        <mat-divider></mat-divider>
-
-      </div>
-
-      <div style="text-align-last: center; padding-bottom: 5px;">
-        <pagination-controls (pageChange)="p = $event" (click)="setStep(-1)"></pagination-controls>
-      </div>
-    </mat-list>
-  </div>
+            <div style="text-align-last: center; padding-bottom: 5px;">
+                <pagination-controls (pageChange)="p = $event" (click)="setStep(p-1)"></pagination-controls>
+            </div>
+        </mat-list>
+    </div>
 </div>
