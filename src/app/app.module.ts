@@ -26,8 +26,8 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTabsModule} from '@angular/material/tabs';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './Service/TokenInterceptor';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { TokenInterceptor } from './Service/TokenInterceptor';
 
 
 

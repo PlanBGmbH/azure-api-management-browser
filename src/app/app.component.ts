@@ -1,4 +1,6 @@
-import { Component, Injectable } from '@angular/core';
+import { Display_data } from './Models/Model.Display_data';
+import { PageModel } from './Models/PageModel';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { Service } from './Models/Model.Service';
 import { Apis } from './Models/Model.Apis';
 import { HttpClient } from '@angular/common/http';
@@ -7,9 +9,11 @@ import { KeyValuePipe } from '@angular/common';
 import { MatTableDataSource, PageEvent } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ApisProperties } from './Models/Model.ApisProperties';
 import { ErrorHandler } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { Stages } from './Stages';
 
 @Component({
   selector: 'app-root',
@@ -25,81 +29,87 @@ import { ErrorHandler } from '@angular/core';
   ]
 })
 
+export class AppComponent implements OnInit {
 
-
-export class AppComponent {
-  panelOpenState = false;
-  viewDataToggle = true;
-  serviceData: Service;
-  apiData: Apis;
-  serviceDisplayData: Service[];
   apisDisplayData: Apis[];
-  datasource: null;
+
   isWait = false;
   isWaitApies = false;
-  // Paginator
-  selected = '1';
 
-  p = 1;
+  pages: PageModel[] = [];
 
-  step = -1;
+  pagesize = 2;
+
+  $ServicestoDisplay: BehaviorSubject<Service[]>;
+
+  activeStage: Stages = Stages.production;
+
+  SelectStages = Stages;
+
+  selectedPageIndex = 0;
+
+  selectedApiId = '';
 
   setStep(index: number) {
-    this.step = index;
+    this.selectedPageIndex = index;
+    this.DisplayData(this.pages[index]);
+    this.selectedApiId = '';
   }
 
   nextStep() {
-    this.step++;
+    this.selectedPageIndex++;
+    this.selectedApiId = '';
   }
 
   prevStep() {
-    this.step--;
+    this.selectedPageIndex--;
+    this.selectedApiId = '';
   }
 
 
   constructor(private service: HttpService) { }
 
-
-  // tslint:disable-next-line: use-life-cycle-interface
   ngOnInit() {
-    this.service.getListByService(this.viewDataToggle).subscribe(data => {
-      this.serviceData = data;
-      this.writeValueToArray();
+    this.$ServicestoDisplay = new BehaviorSubject<Service[]>(null);
+    this.InitializePages();
+  }
+
+  InitializePages()  {
+    this.service.getListByService(this.activeStage, 0).then(data => {
+      this.pages = [];
+      this.selectedPageIndex = 0;
+      this.selectedApiId = '';
+      for (let i = 0; i < data.count; i += this.pagesize) {
+          this.pages.push(new PageModel(i / this.pagesize, i === 0 ? data.value : null));
+      }
+      this.DisplayData(this.pages[0]);
     });
   }
 
-
-
-  writeValueToArray() {
-    const mapped = Object.keys(this.serviceData).map(key => ({ type: key, value: this.serviceData[key] }));
-    this.serviceDisplayData = mapped[0].value;
-    console.log(this.serviceDisplayData);
+  async getPageServices(pageIndex) {
     this.isWait = true;
+    const apis = await this.service.getListByService(this.activeStage, pageIndex);
+    this.isWait = false;
   }
-  getApiList(services: Service) {
-    this.service.getListByApi(services.name, this.viewDataToggle).subscribe(data => {
-      console.log(data);
-      this.apiData = data;
-      console.log(this.apiData);
-      const mapped = Object.keys(this.apiData).map(key => ({ type: key, value: this.apiData[key] }));
+  getApiList(service: Service) {
+    this.selectedApiId = service.id;
+    this.service.getListByApi(service.name, this.activeStage).subscribe(data => {
+      const mapped = Object.keys(data).map(key => ({ type: key, value: data[key] }));
       this.apisDisplayData = mapped[0].value;
       this.isWaitApies = true;
-      console.log(this.apisDisplayData);
     });
   }
 
   onChange() {
-    if (this.selected === '1') {
-      this.viewDataToggle = true;
-    } else {
-      this.viewDataToggle = false;
-    }
-    this.isWait = false;
-    this.step = -1;
 
+    this.InitializePages();
+  }
 
-    this.ngOnInit();
-
+   DisplayData(page: PageModel) {
+        this.isWait = true;
+        this.service.getListByService(this.activeStage, page.index).then(data => {
+          return data.value;
+        }).then(value => this.$ServicestoDisplay.next(value));
   }
 }
 
