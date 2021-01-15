@@ -1,6 +1,6 @@
 <div class="textSytle">
     <div class="dropdown">
-        <mat-select [(value)]="activeStage" (selectionChange)="onChange($event)">
+        <mat-select [(value)]="activeStage" (selectionChange)="onChange()">
             <mat-option value="{{SelectStages.production}}">{{SelectStages.production}}</mat-option>
             <mat-option value="{{SelectStages.stage}}">{{SelectStages.stage}}</mat-option>
         </mat-select>
@@ -98,7 +98,7 @@
             </div>
 
             <div style="text-align-last: center; padding-bottom: 5px;">
-                <pagination-controls (pageChange)="p = $event" (click)="setStep(p-1)"></pagination-controls>
+                <pagination-controls (pageChange)="setStep($event-1) "></pagination-controls>
             </div>
         </mat-list>
     </div>

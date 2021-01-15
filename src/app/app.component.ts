@@ -49,9 +49,10 @@ export class AppComponent implements OnInit {
   selectedPageIndex = 0;
 
   selectedApiId = '';
-
+  
   setStep(index: number) {
     this.selectedPageIndex = index;
+    console.log(index);
     this.DisplayData(this.pages[index]);
     this.selectedApiId = '';
   }

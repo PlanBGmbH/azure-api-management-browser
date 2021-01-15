@@ -1,54 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.mat-expansion-panel{
-  box-shadow: none !important;
+html, body {
+  height: 100%;
 }
 
-.mat-expansion-indicator::after{
-  color:black !important;
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-
-.mat-expansion-panel:not(.mat-expanded):hover{
-  background-color: rgba(255, 69, 0, 0.2)  !important;
-}
-
-.mat-expansion-panel:not(.mat-expanded){
-  display: block;
-  
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-
-.mat-expanded{
-  height: 100% !important;
-}
-
-.headerStyle{
-    top: 50%; 
-  left: 50%;
-   margin-right: -50%;
-    margin-left: 12px; 
-    color: white;
-    font-weight: 24px;
-    font-size: 24px;
-    line-height: 28px;
-  }
-
-  .headerbox{
-  display: flex; 
-  align-items: center; 
-  background-color: rgba(0,0,0,0.6);
-  }
-
-
-  .mat-progress-spinner circle, .mat-spinner circle {
-    width:100px;
-    height:100px;
-    stroke: (0,0,0,0.6)!important;
-  }
+/*# sourceMappingURL=styles.css.map */
