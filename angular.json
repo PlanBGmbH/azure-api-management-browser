@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "build",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -26,8 +27,7 @@
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -51,6 +51,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -134,5 +138,8 @@
       }
     }
   },
-  "defaultProject": "azure-api-management-browser"
+  "defaultProject": "azure-api-management-browser",
+  "cli": {
+    "analytics": "a4a0cd07-7c34-4b0c-a247-097b6ac11279"
+  }
 }

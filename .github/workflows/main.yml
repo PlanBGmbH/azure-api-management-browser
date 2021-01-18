@@ -9,14 +9,21 @@ jobs:
     steps:  
     - name: Azure CLI script
       uses: actions/checkout@v2
+
     - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Setup Node 12.x
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - name: npm install and npm run build
+      run: |
+          npm ci
+          npm run build
+
     - name: 'npm install and build'
       run: |
         npm install
@@ -28,3 +35,4 @@ jobs:
     - name: logout
       run: |
             az logout
+

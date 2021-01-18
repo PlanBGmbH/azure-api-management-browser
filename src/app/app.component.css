@@ -14,6 +14,19 @@ background-color: red;
 
 /* mat-expansion-panel-header{background: #CCC}*/
 
+tr {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    color: black;
+}
+
+td {
+    width: 33%;
+}
+
 .even {
     background: #CCC
 }
@@ -88,4 +101,25 @@ text-overflow: ellipsis;
 .progressSpinner {
     text-align: center;
     margin: 0 auto;
+}
+
+.bodyDesc {
+    color: black;
+}
+
+.bodyDesc .descriptionBody {
+    margin-left: 60px;
+    margin-right: 60px;
+    padding-bottom: 30px;
+    border-bottom: 3px solid black;
+    margin-bottom: 10px;
+}
+
+.descTransClose {
+    opacity: 1;
+    transition: opacity 2s;
+}
+
+.descTransOpen {
+    opacity: 0;
 }

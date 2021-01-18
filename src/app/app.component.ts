@@ -6,7 +6,7 @@ import { Apis } from './Models/Model.Apis';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './Service/http.service';
 import { KeyValuePipe } from '@angular/common';
-import { MatTableDataSource, PageEvent } from '@angular/material';
+import { MatExpansionPanelHeader, MatTableDataSource, PageEvent } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -48,22 +48,20 @@ export class AppComponent implements OnInit {
 
   selectedPageIndex = 0;
 
-  selectedApiId = '';
+  lastExpensionHeader: MatExpansionPanelHeader;
 
   setStep(index: number) {
     this.selectedPageIndex = index;
+    console.log(index);
     this.DisplayData(this.pages[index]);
-    this.selectedApiId = '';
   }
 
   nextStep() {
     this.selectedPageIndex++;
-    this.selectedApiId = '';
   }
 
   prevStep() {
     this.selectedPageIndex--;
-    this.selectedApiId = '';
   }
 
 
@@ -78,7 +76,6 @@ export class AppComponent implements OnInit {
     this.service.getListByService(this.activeStage, 0).then(data => {
       this.pages = [];
       this.selectedPageIndex = 0;
-      this.selectedApiId = '';
       for (let i = 0; i < data.count; i += this.pagesize) {
           this.pages.push(new PageModel(i / this.pagesize, i === 0 ? data.value : null));
       }
@@ -91,13 +88,24 @@ export class AppComponent implements OnInit {
     const apis = await this.service.getListByService(this.activeStage, pageIndex);
     this.isWait = false;
   }
-  getApiList(service: Service) {
-    this.selectedApiId = service.id;
-    this.service.getListByApi(service.name, this.activeStage).subscribe(data => {
-      const mapped = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-      this.apisDisplayData = mapped[0].value;
-      this.isWaitApies = true;
-    });
+  getApiList(service: Service, item: MatExpansionPanelHeader ) {
+
+    this.apisDisplayData = [];
+    if (item === this.lastExpensionHeader)
+    {
+      item.panel.close();
+      this.lastExpensionHeader = null;
+    }
+    else
+    {
+      this.lastExpensionHeader?.panel.close();
+      this.lastExpensionHeader = item;
+      console.log(service.id);
+      this.service.getListByApi(service.name, this.activeStage).subscribe(data => {
+        const mapped = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+        this.apisDisplayData = mapped[0].value;
+      });
+     }
   }
 
   onChange() {
