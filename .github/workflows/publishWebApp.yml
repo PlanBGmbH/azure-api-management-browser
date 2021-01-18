@@ -16,10 +16,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-    - name: 'npm install and build'
+    - name: 'angular install and build'
       run: |
         npm install
-        npm run build 
+        ng build 
     - name: Run Az CLI script  
       run: |
         az storage blob upload-batch --account-name 'azureapimanagementplanb' -s ./build -d '$web'
