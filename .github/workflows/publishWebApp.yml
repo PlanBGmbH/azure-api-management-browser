@@ -16,10 +16,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - name: 'npm install and build'
+
+    - name: npm install and npm run build
       run: |
-        npm install
-        npm run build --if-present --prod --base-href=/dist/ --output-path=./build
+          npm ci
+          npm run build
+
+     
     - name: Run Az CLI script  
       run: |
         az storage blob upload-batch --account-name 'azureapimanagementplanb' -s ./build -d '$web'

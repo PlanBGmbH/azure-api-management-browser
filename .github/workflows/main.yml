@@ -1,3 +1,4 @@
+
 name: Blob storage website CI
 
 on: [push]
@@ -8,6 +9,12 @@ jobs:
     steps:  
     - name: Azure CLI script
       uses: actions/checkout@v2
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Setup Node 12.x
       uses: actions/setup-node@v1
       with:
@@ -16,3 +23,16 @@ jobs:
       run: |
           npm ci
           npm run build
+
+    - name: 'npm install and build'
+      run: |
+        npm install
+        npm run build --if-present --prod --base-href=/dist/ --output-path=./build
+    - name: Run Az CLI script  
+      run: |
+        az storage blob upload-batch --account-name 'azureapimanagementplanb' -s ./build -d '$web'
+        # Azure logout 
+    - name: logout
+      run: |
+            az logout
+
