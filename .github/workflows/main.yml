@@ -1,25 +1,30 @@
-name: Build and Deploy
 
-on:
-  push:
-    branches:
-      - master
+name: Blob storage website CI
+
+on: [push]
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - uses: actions/setup-node@v1 #this installs node and npm for us
+    steps:  
+    - name: Azure CLI script
+      uses: actions/checkout@v2
+    - name: Azure Login
+      uses: azure/login@v1
       with:
-        node-version: '10.x'
-    - uses: actions/cache@v1
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Node 12.x
+      uses: actions/setup-node@v1
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-    
-    - name: Build
+        node-version: '12.x'
+    - name: 'npm install and build'
       run: |
         npm install
-        npm run-script deploy
+        npm run build --if-present --prod --base-href=/dist/ --output-path=./build
+    - name: Run Az CLI script  
+      run: |
+        az storage blob upload-batch --account-name 'azureapimanagementplanb' -s ./build -d '$web'
+        # Azure logout 
+    - name: logout
+      run: |
+            az logout
