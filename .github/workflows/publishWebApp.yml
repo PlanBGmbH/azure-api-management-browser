@@ -12,14 +12,15 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Setup Node 10.x
+    - name: Setup Node 12.x
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - name: Install Dependencies
-      run: npm ci
-    - name: Angular Build 
-      run: npm run build:ci
+    - name: npm install and npm run build
+      run: |
+          npm ci
+          npm run build:ci
+
      
     - name: Run Az CLI script  
       run: |
