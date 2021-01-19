@@ -1,12 +1,11 @@
-# Genral Information
-
-Deployment URL: https://esbapimportal.z6.web.core.windows.net/
-Storage Owner: Fabian Hering (PlanB GmbH)
-
-
-
 
 # AzureApiManagementBrowser
+
+## Genral Information
+
+Deployment URL: https://esbapimportal.z6.web.core.windows.net/
+
+Storage Owner: Fabian Hering (PlanB GmbH)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.10. (Upgraded to 10.)
 
