@@ -14,6 +14,7 @@ import { ApisProperties } from './Models/Model.ApisProperties';
 import { ErrorHandler } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Stages } from './Stages';
+import { Settings } from './settings';
 
 @Component({
   selector: 'app-root',
@@ -50,6 +51,7 @@ export class AppComponent implements OnInit {
 
   lastExpensionHeader: MatExpansionPanelHeader;
 
+  company = Settings.company;
   setStep(index: number) {
     this.selectedPageIndex = index;
     console.log(index);
