@@ -1,0 +1,67 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool: ESBInternal
+
+jobs:
+  - job: Build
+    steps:
+      # Customization
+      - task: PowerShell@2
+        displayName: Get Company Icon
+        inputs:
+          targetType: 'inline'
+          script: |
+            $url = "https://zeissesbstoragedev.blob.core.windows.net/resources/logo.png?sp=rl&st=2021-01-22T14:14:24Z&se=2029-06-21T14:14:00Z&sv=2019-12-12&sr=b&sig=LxDPCNVUnn%2BaM3rUvy%2FsX0F7Jjuc%2BYOwt%2FcbVeytpJM%3D"
+            Invoke-RestMethod -Method GET -Uri $url -OutFile $(Build.SourcesDirectory)/src/assets/icons/logo.png
+      
+      - task: PowerShell@2
+        displayName: Get Settings file
+        inputs:
+          targetType: 'inline'
+          script: |
+            $url = "https://zeissesbstoragedev.blob.core.windows.net/resources/settings.ts?sp=rl&st=2021-01-22T14:09:47Z&se=2027-12-23T14:09:00Z&sv=2019-12-12&sr=b&sig=WaFNSu6w29QFaRvPmz74IDNhrFLNcsL%2Fok4ns%2F9u3mw%3D"
+            Invoke-RestMethod -Method GET -Uri $url -OutFile $(Build.SourcesDirectory)/src/app/settings.ts
+     
+     # Build Steps
+      - task: NodeTool@0
+        displayName: 'Setup Node 10.x'
+        inputs:
+          versionSpec: '10.x'
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          command: 'install'
+      - task: Npm@1
+        displayName: 'npm build'
+        inputs: 
+         command: 'custom'
+         customCommand: run build --if-present --prod --base-href=/dist/ --output-path=./build
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: './build'
+          artifact: 'app'
+          publishLocation: 'pipeline'
+          
+  - job: Deploy
+    dependsOn: Build
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    steps:
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'current'
+          artifactName: 'app'
+          targetPath: '$(Build.ArtifactStagingDirectory)/app'
+      - task: AzureFileCopy@3
+        inputs:
+          SourcePath: '$(Build.ArtifactStagingDirectory)/app'
+          azureSubscription: 'ESB ARM (Production)'
+          Destination: 'AzureBlob'
+          storage: 'zeissesbstoragedev'
+          ContainerName: '$web'
+ 
