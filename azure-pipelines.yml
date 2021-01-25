@@ -64,4 +64,10 @@ jobs:
           Destination: 'AzureBlob'
           storage: 'zeissesbstoragedev'
           ContainerName: '$web'
- 
+      - task: PowerShell@2
+        displayName: "Print Essential Information" 
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "Website-Url: https://zeissesbstoragedev.z6.web.core.windows.net/"
+        
