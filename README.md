@@ -3,7 +3,7 @@
 
 ## Genral Information
 
-Deployment URL: https://esbapimportal.z6.web.core.windows.net/
+Deployment URL: https://esbapim.z6.web.core.windows.net/
 
 Storage Owner: Fabian Hering (PlanB GmbH)
 
