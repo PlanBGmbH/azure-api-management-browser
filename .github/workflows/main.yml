@@ -1,6 +1,5 @@
 
 name: Blob storage website CI
-
 on: [push]
 
 jobs:
